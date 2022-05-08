@@ -4,6 +4,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Scanner;
 
 
 public class Main {
@@ -27,11 +28,10 @@ public class Main {
 
         String text = "Миша ездит на Жигули, а Катя на Мерседес";//строка
         String text2 = new String(new BigInteger(text.getBytes()).toByteArray());//строка разложена на байты(вроде так)
-
         String path = System.getProperty("user.dir") + File.separator + "1.txt";//путь для создания файла
         File file1 = new File(path);
         try {
-            System.out.println(file1.createNewFile());//создание файла
+            file1.createNewFile();//создание файла
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,19 +49,19 @@ public class Main {
         String path2 = System.getProperty("user.dir") + File.separator + "Результат" + File.separator + "2.txt";//путь для создания файла
         File file2 = new File(path2);
         try {
-            System.out.println(file2.createNewFile());//создание файла
+            file2.createNewFile();//создание файла
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
             FileInputStream fileInputStream = new FileInputStream(path);//открытие потока на ввод
-            FileOutputStream fileOutputStream=new FileOutputStream(path2);//открытие потока на вывод
+            FileOutputStream fileOutputStream = new FileOutputStream(path2);//открытие потока на вывод
             byte[] byteMass = new byte[fileInputStream.available()];//создание массива байт размером с длину текста входящего потока
             fileInputStream.read(byteMass);//запись в массив
             String newTxt = new String(byteMass, StandardCharsets.UTF_8);//преобразование массива байт в строку
-            System.out.println(Arrays.toString(byteMass));//проверочный вовыд в консоль
-            //    System.out.println(newTxt);//проверочный вывод строкой
+//            System.out.println(Arrays.toString(byteMass));//проверочный вовыд в консоль
+//            System.out.println(newTxt);//проверочный вывод строкой
             String[] massWord = newTxt.split(" ");//создание массива строк
             StringBuilder sb = new StringBuilder();//цикл перебирает слова и заменяя нужные добавляет в StringBuilder
             for (int i = 0; i < massWord.length; i++) {
@@ -73,15 +73,25 @@ public class Main {
                 }
                 sb.append(massWord[i] + " ");
             }
-            System.out.println(sb);//вывод в консоль
+//            System.out.println(sb);//вывод в консоль
             String text3 = new String(new BigInteger(sb.toString().getBytes()).toByteArray());//создание строки из StringBuilder разложенного на байты
             fileOutputStream.write(text3.getBytes());//запись полученной строки после замены слов
-
+            System.out.println("Файл находиться по пути "+path2+"\nУвидеть содержимое-введи путь в консоль: ");
+            Scanner scaner=new Scanner(System.in);
+            String userInput=scaner.next();
+            if(userInput.equals(path2)){
+                System.out.println(newTxt);
+            }else{
+                System.out.println("Не верный путь");
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
 
 
     }
